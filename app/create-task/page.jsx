@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useState , useEffect} from 'react';
 //import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import FormTask from '@components/FormTask';
@@ -8,11 +8,12 @@ import FormTask from '@components/FormTask';
 const CreateTask = () => {
   const router = useRouter();
   //const { data: session } = useSession();
-
+  const [persons, setpersons] = useState([])
   const [submitting, setSubmitting] = useState(false);
   const [post, setPost] = useState({
     name: '',
-    description: ''
+    description: '',
+    selectedPersonIds: []
   });
 
   const createTask = async (e) => {
@@ -28,6 +29,7 @@ const CreateTask = () => {
         body: JSON.stringify({
           name: post.name,
           description: post.description,
+          personIds: post.selectedPersonIds,
         }),
       });
 
@@ -43,9 +45,20 @@ const CreateTask = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchPosts = async () =>{
+      const response = await fetch(`http://localhost:3001/persons`)
+      const data = await response.json();
+      console.log(data)
+      setpersons(data)
+    }
+    fetchPosts()
+  }, [])
+  
   return (
     <FormTask
       type="Create"
+      persons={persons}
       post={post}
       setPost={setPost}
       submitting={submitting}
