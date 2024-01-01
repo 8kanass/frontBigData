@@ -1,13 +1,13 @@
 import Link from "next/link"
 
-const Form = ({type ,post ,setPost ,submitting ,handleSubmit}) => {
+const FormTask = ({type ,post ,setPost ,submitting ,handleSubmit}) => {
   return (
     <section className="w-full max-w-full flex-start flex-col">
       <h1 className="head_text text-left">
-        <span className="blue_gradient">{type} Person </span>
+        <span className="blue_gradient">{type} Task </span>
       </h1>
       <p className="desc text-left max-w-md">
-        {type} a person and make sure to enter the right informations. 
+        {type} a task and make sure to enter the right informations. 
       </p>
       <form
         onSubmit={handleSubmit}
@@ -15,27 +15,26 @@ const Form = ({type ,post ,setPost ,submitting ,handleSubmit}) => {
       >
         <label>
           <span className="font-satoshi font-semibold text-base text-gray-700">
-            Full Name
+            Task Name
           </span>
           <input
           value={post.name}
           onChange={(e)=> setPost({...post , name : e.target.value})}
-          placeholder="Write full name here ..."
+          placeholder="Write task name here ..."
           required
           className="form_input"
           />
         </label>
         <label>
           <span className="font-satoshi font-semibold text-base text-gray-700">
-            Age {` `}
-            <span className="font-normal">(number)</span>
+            Description {` `}
           </span>
-          <input
-          value={post.age}
-          onChange={(e)=> setPost({...post , age: e.target.value})}
-          placeholder="Write age here ..."
+          <textarea
+          value={post.description}
+          onChange={(e)=> setPost({...post , description: e.target.value})}
+          placeholder="Write description here ..."
           required
-          className="form_input"
+          className="form_textarea"
           />
         </label>
 
@@ -56,4 +55,4 @@ const Form = ({type ,post ,setPost ,submitting ,handleSubmit}) => {
   )
 }
 
-export default Form
+export default FormTask

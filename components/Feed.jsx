@@ -28,14 +28,13 @@ const Feed = () => {
       }
     }
 
-    const fetchPosts = async () =>{
-      const response = await fetch(`http://localhost:3001/persons`)
-      const data = await response.json();
-      console.log(data)
-      setPosts(data)
-    }
-
     useEffect(()=>{
+      const fetchPosts = async () =>{
+        const response = await fetch(`http://localhost:3001/persons`)
+        const data = await response.json();
+        console.log(data)
+        setPosts(data)
+      }
       fetchPosts()
     },[])
     return (
