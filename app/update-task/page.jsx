@@ -10,12 +10,13 @@ const EditPerson = () => {
   const searchParams = useSearchParams();
   const taskId = searchParams.get('id');
   const router = useRouter();
-
+  const [persons, setpersons] = useState([])
   // State to manage form data and submission status
   const [submitting, setSubmitting] = useState(false);
   const [personData, setPersonData] = useState({
     name: '',
-    description: ''
+    description: '',
+    selectedPersonIds: []
   });
 
   // Fetch person details on component mount
@@ -35,6 +36,17 @@ const EditPerson = () => {
 
     if (taskId) getPersonDetails();
   }, [taskId]);
+
+  useEffect(() => {
+    const fetchPosts = async () =>{
+      const response = await fetch(`http://localhost:3001/persons`)
+      const data = await response.json();
+      console.log(data)
+      setpersons(data)
+    }
+    fetchPosts()
+  }, [])
+  
 
   // Function to handle form submission and update person details
   const updatePerson = async (e) => {
@@ -69,6 +81,7 @@ const EditPerson = () => {
   return (
     <FormTask
       type="Edit"
+      persons={persons}
       post={personData}
       setPost={setPersonData}
       submitting={submitting}

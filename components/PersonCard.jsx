@@ -2,9 +2,11 @@
 import {useState} from 'react'
 import Image from 'next/image'
 //import { useSession } from 'next-auth/react'
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import { usePathname , useRouter } from 'next/navigation'
 
 const PersonCard = ({post , handleTagClick , handleEdit , handleDelete}) => {
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
   //const{data : session} = useSession()
   const pathName = usePathname()
   const router = useRouter()
@@ -16,8 +18,6 @@ const PersonCard = ({post , handleTagClick , handleEdit , handleDelete}) => {
     navigator.clipboard.writeText(post.prompt)
     setTimeout(() => setCopied(""), 2500);
   }
-
-  
   
   return (
     <div className='prompt_card'>
@@ -37,8 +37,32 @@ const PersonCard = ({post , handleTagClick , handleEdit , handleDelete}) => {
           <p className='font-inter text-sm orange_gradient cursor-pointer' onClick={handleDelete}>
             Delete
           </p>
+          <p className='font-inter text-sm blue_gradient cursor-pointer' onClick={onOpen}>
+            Show Tasks
+          </p>
         </div>
-      
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange} className='prompt_card '>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="mt-5 text-xl  font-extrabold justify-center text-black sm:text-xl;">All task asigned to {post.name}</ModalHeader>
+              <ModalBody >
+              {post.assignedTasks.map((task, index) => (
+                <div key={index} className="mb-3">
+                  <p className="font-inter text-base font-semibold">{task.name}</p>
+                  <p className="font-inter text-sm">{task.description}</p>
+                </div>
+              ))}
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   )
 }

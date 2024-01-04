@@ -70,9 +70,9 @@ const FormTask = ({
             className="form_textarea"
           />
         </label>
-        <Dropdown>
+        <Dropdown className="bg-blue-50">
           <DropdownTrigger>
-            <Button variant="bordered" className="capitalize">
+            <Button variant="bordered" className="capitalize bg-white w-full flex rounded-lg mt-2 p-3 text-sm text-black outline-0">
               {selectedValue}
             </Button>
           </DropdownTrigger>
